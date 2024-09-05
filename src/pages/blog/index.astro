@@ -1,0 +1,18 @@
+---
+import PageLayout from "@/layouts/PageLayout.astro";
+import ArticlePreview from "@/components/Blog/ArticlePreview.astro";
+import BlogSearch from "@/components/Blog/BlogSearch.svelte";
+import { getCollection } from "astro:content";
+
+const articles = (await getCollection("blogs")).sort((a, b) => {
+  const dateA = new Date(a.data.pubdate);
+  const dateB = new Date(b.data.pubdate);
+  return dateB.valueOf() - dateA.valueOf();
+});
+---
+
+<PageLayout title="Blog | Bijoy Kar">
+  <div class="mt-10 flex justify-center py-4">
+    <BlogSearch client:idle articles={articles} />
+  </div>
+</PageLayout>
